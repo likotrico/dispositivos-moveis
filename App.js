@@ -1,64 +1,42 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Button, ScrollView, TextInput } from 'react-native-web';
-import axios from 'axios';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {NavigationContainer} from '@react-navigation/native';
 
-axios.defaults.baseURL = 'http://10.0.84.187:1337/api';
 
-export default function App() {
-  
-  const [dados,setDados] = React.useState([]);
-  const [usuario,setUsuario] = React.useState('');
-  const [senha,setSenha] = React.useState('');
-  const [jwt,setJwt] = React.useState('');
+import tela_gastos_percentuais from './Tela_gastos_percentuais';
+import tela_menu from './Tela_menu.js';
+import tela_gastos from './Tela_gastos.js'
+import tela_aReceber from './tela_aReceber.js'
+import tela_setar_salario from './Tela_setar_salario.js'
+import tela_gastos_cartao from './Tela_cartoes.js'
+import tela_inserir_elemento_cartao from './Tela_inserir_elemento_cartao.js'
+import tela_pix from './Tela_pix.js'
+import tela_inserir_elemento_pix from './Tela_inserir_elemento_pix.js';
+import tela_gastos_dinheiro from './Tela_dinheiro.js';
+import tela_inserir_elemento_dinheiro from './Tela_inserir_elemento_dinheiro.js';
+import tela_editar_elemento_dinheiro from './Tela_editar_elemento_dinheiro.js';
+
+const Stack = createNativeStackNavigator();
+
+export default function App(){
+
   return (
-    <View style={styles.container}>
-      <Button title="Aperte" onPress={async () => 
-        {
-            const {data} = await axios.get('/mensagems', {headers: {Authorization: `Bearer ${jwt}`}});
-            console.log(jwt);
-            //console.log(data.data[1].attributes.autor);
-            setDados(data.data);
-        }
-      } 
-      />
-      <TextInput placeholder="Digite aqui o usuário" 
-        onChangeText={setUsuario}
-      />
-      <TextInput placeholder="Digite aqui a senha" 
-        onChangeText={setSenha}
-        secureTextEntry={true}
-      />
-      <Button title="Login" onPress={async () => 
-          {
-              try {
-                const response = await axios.post('/auth/local',{identifier:usuario,password:senha});
-                console.log(response.data.jwt);
-                console.log("SUCESSO!");
-                setJwt(response.data.jwt);
-              }
-              catch (error) {
-                console.log(error);
-              }
-              
-          }
-        }
-      />
+    <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Tela_menu" component={tela_menu}/>
+          <Stack.Screen name="Tela_gastos_percentuais" component={tela_gastos_percentuais}/>
+          <Stack.Screen name="Tela_gastos" component={tela_gastos}/>
+          <Stack.Screen name="Tela_aReceber" component={tela_aReceber}/>
+          <Stack.Screen name="Tela_setar_salario" component={tela_setar_salario}/>
+          <Stack.Screen name="Tela_cartoes" component={tela_gastos_cartao}/>
+          <Stack.Screen name="Tela_inserir_elemento_cartao" component={tela_inserir_elemento_cartao}/>
+          <Stack.Screen name="Tela_pix" component={tela_pix}/>
+          <Stack.Screen name="Tela_inserir_elemento_pix" component={tela_inserir_elemento_pix}/>
+          <Stack.Screen name="Tela_dinheiro" component={tela_gastos_dinheiro}/>
+          <Stack.Screen name="Tela_inserir_elemento_dinheiro" component={tela_inserir_elemento_dinheiro}/>
+          <Stack.Screen name="Tela_editar_elemento_dinheiro" component={tela_editar_elemento_dinheiro}/>
+        </Stack.Navigator>
+      
+    </NavigationContainer>
 
-      <ScrollView>
-        {dados.map((item) => (
-          <Text key={item.id}>{item.attributes.post}</Text>
-        ))}
-      </ScrollView>
-    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
