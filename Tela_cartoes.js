@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import { Text, View, StyleSheet, Image, TouchableOpacity, ScrollView} from 'react-native';
 
 const styles = StyleSheet.create({
   
@@ -152,9 +152,11 @@ export default function tela_gastos_cartao({route, navigation}) {
   var vector_cartao = vector.vetor_cartao
   //console.log(vector_cartao)
   var salario = route.params.salario
+  var elemento
   
   const mudarTelaGastos = () => {navigation.navigate("Tela_gastos", {vector, salario})}
   const mudarTelaInserirElemento = () => {navigation.navigate("Tela_inserir_elemento_cartao", {vector, salario})}
+  const mudarTelaEditarExcluirElemento = () => {navigation.navigate("Tela_editar_elemento_cartao", {vector, salario, elemento})}
 
   return (
       <View style={styles.container}>
@@ -176,6 +178,7 @@ export default function tela_gastos_cartao({route, navigation}) {
         {/*TELA ONDE FICA O CONTEÚDO*/}
         <View style={styles.tela}>
 
+          <ScrollView>
           <View style={styles.label_restante}>
 
             <TouchableOpacity style={styles.botao1} onPress={mudarTelaInserirElemento}>
@@ -189,7 +192,7 @@ export default function tela_gastos_cartao({route, navigation}) {
 
             {vector_cartao.map((vector_cartao) => {
             return (
-              <TouchableOpacity  style={styles.botao1}>
+              <TouchableOpacity  style={styles.botao1} onPress={()=>{elemento = vector_cartao; mudarTelaEditarExcluirElemento()}}>
               <Image
               style={styles.imagem_botao}
               source={require('./imagem_2024-03-01_121240459.png')}   
@@ -217,7 +220,7 @@ export default function tela_gastos_cartao({route, navigation}) {
 
             
           </View>
-
+          </ScrollView>
         </View>
 
       </View>

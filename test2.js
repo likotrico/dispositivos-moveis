@@ -8,6 +8,7 @@ export default class Conta1{
     apelido_cartao: string;
     modalidade: int;
     comentario: string;
+    id: int;
   
     constructor(valor_conta, parcelas, dia_compra, mes_compra, ano_compra, apelido_cartao, modalidade, comentario){
       this.valor_conta = valor_conta;

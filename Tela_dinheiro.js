@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import { Text, View, TextInput, Button, Alert, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import { Text, View, ScrollView, Button, Alert, StyleSheet, Image, TouchableOpacity} from 'react-native';
 
 const styles = StyleSheet.create({
   
@@ -156,6 +156,7 @@ export default function tela_gastos_dinheiro({route, navigation}) {
         {/*TELA ONDE FICA O CONTEÚDO*/}
         <View style={styles.tela}>
 
+          <ScrollView>
           <View style={styles.label_restante}>
 
             <TouchableOpacity style={styles.botao1} onPress={mudarTelaInserirElemento}>
@@ -192,6 +193,7 @@ export default function tela_gastos_dinheiro({route, navigation}) {
 
 
           </View>
+          </ScrollView>
 
         </View>
 

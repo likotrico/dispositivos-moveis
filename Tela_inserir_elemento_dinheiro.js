@@ -62,9 +62,9 @@ const styles = StyleSheet.create({
 
   label_comentario_compra:{
     width:320,
-    height:40,
+    height:150,
     flexDirection:'row',
-    alignItems:'center',
+    //alignItems:'center',
     backgroundColor:'violet',
   },
   
@@ -123,6 +123,18 @@ const styles = StyleSheet.create({
     borderRadius:5,
     backgroundColor:'red',
     textAlign:'center',
+  },
+
+  textinputcomentario:{
+    marginLeft:10,
+    marginRight:10,
+    width:150,
+    height:140,
+    borderWidth:2,
+    borderRadius:5,
+    backgroundColor:'white',
+    textAlignVertical:'top',
+    numberOfLines:15,
   },
 
   text_button_save:{
@@ -235,7 +247,7 @@ export default function tela_inserir_elemento_dinheiro({route, navigation}) {
             
             <View style={styles.label_comentario_compra}>
               <Text style={styles.texto1}>Comentário:</Text>
-              <TextInput style={styles.textinput1} onChange={(newText) => {coment = newText.target.value} }></TextInput>
+              <TextInput style={styles.textinputcomentario} multiline={true} onChange={(newText) => {coment = newText.target.value} }></TextInput>
             </View>
 
             <TouchableOpacity style={styles.botao_salvar} onPress={() => {salvarNovoElemento(vector, valorPago, dia, mes, ano, mod, coment); mudarTelaDinheiro()}} >

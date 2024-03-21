@@ -1,26 +1,22 @@
-import {useState} from 'react';
-import { Text, View, ScrollView, Button, Alert, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import { Text, View, StyleSheet, ScrollView, Image, TouchableOpacity} from 'react-native';
 
-export default function tela_editar_elemento_dinheiro({route, navigation}) {
+export default function tela_editar_elemento_cartao({route, navigation}) {
   
-  console.log('tela_editar_elemento_dinheiro')
+  console.log('tela_editar_elemento_cartao')
   var vector = route.params.vector
-  console.log(vector)
   var salario = route.params.salario
-  console.log(salario)
   var elemento = route.params.elemento
-  console.log(elemento)
 
-  const mudarTelaDinheiro = () => {navigation.navigate("Tela_dinheiro", {vector, salario})}
-  const mudarEditandoDinheiro = () => {navigation.navigate("Tela_editando_dinheiro", {vector, salario, elemento})}
-
+  const mudarTelaCartoes = () => {navigation.navigate("Tela_cartoes", ({vector, salario}))}
+  const mudarEditandoCartao = () => {navigation.navigate("Tela_editando_cartao", ({vector, salario, elemento}))}
+  
   return (
       <View style={styles.container}>
         <View style={styles.linha_superior}></View>
 
         {/*TELA DO TOPO*/}
         <View style={styles.cabecalho}>
-          <TouchableOpacity onPress={mudarTelaDinheiro}>
+          <TouchableOpacity onPress={mudarTelaCartoes}>
             <Image
             style={styles.imagem_barrinhas}
             source={require('/imagem_2024-03-01_121240459.png')}   
@@ -37,13 +33,18 @@ export default function tela_editar_elemento_dinheiro({route, navigation}) {
           <View style={styles.label_restante}>
 
             <View style={styles.label_valorPago}>
-                <Text style={styles.texto_label_valorpago}>Valor Pago:</Text>
-                <Text style={styles.texto_restante}>{elemento.valorPago}</Text>
+                <Text style={styles.texto_label_valorpago}>Valor da Compra:</Text>
+                <Text style={styles.texto_restante}>{elemento.valor_conta}</Text>
             </View>
             
             <View style={styles.label_valorPago}>
-                <Text style={styles.texto_label_valorpago}>Data:</Text>
-                <Text style={styles.texto_restante}>{elemento.dia}/{elemento.mes}/{elemento.ano}</Text>
+                <Text style={styles.texto_label_valorpago}>Parcelas:</Text>
+                <Text style={styles.texto_restante}>{elemento.parcelas}</Text>
+            </View>
+
+            <View style={styles.label_valorPago}>
+                <Text style={styles.texto_label_valorpago}>Data da compra:</Text>
+                <Text style={styles.texto_restante}>{elemento.dia_compra}/{elemento.mes_compra}/{elemento.ano_compra}</Text>
             </View>
 
             <View style={styles.label_valorPago}>
@@ -51,18 +52,23 @@ export default function tela_editar_elemento_dinheiro({route, navigation}) {
                 <Text style={styles.texto_restante}>{elemento.modalidade}</Text>
             </View>
 
+            <View style={styles.label_valorPago}>
+                <Text style={styles.texto_label_valorpago}>Cartão:</Text>
+                <Text style={styles.texto_restante}>{elemento.apelido_cartao}</Text>
+            </View>
+
             <View style={styles.label_comentario_compra}>
                 <Text style={styles.texto_label_valorpago}>Comentário:</Text>
                 <ScrollView>
-                  <Text style={styles.textinputcomentario}>{elemento.comentario}</Text>
+                    <Text style={styles.textinputcomentario}>{elemento.comentario}</Text>
                 </ScrollView>
             </View>
 
-            <TouchableOpacity style={styles.botao} onPress={mudarEditandoDinheiro}>
+            <TouchableOpacity style={styles.botao} onPress={mudarEditandoCartao}>
               <Text style={styles.texto_botao}>Editar</Text>
             </TouchableOpacity>
             
-            <TouchableOpacity style={styles.botao} onPress={()=>{vector.excluir_elemento_dinheiro(elemento.id);mudarTelaDinheiro()}}>
+            <TouchableOpacity style={styles.botao} onPress={()=>{vector.excluir_elemento_cartao(elemento.id); mudarTelaCartoes()}}>
               <Text style={styles.texto_botao}>Excluir</Text>
             </TouchableOpacity>
 
@@ -113,19 +119,20 @@ const styles = StyleSheet.create({
   
     label_valorPago:{
         width:320,
-        height:40,
+        height:50,
         flexDirection:'row',
         alignItems:'center',
         backgroundColor:'orange',
     },
-    
+
     label_comentario_compra:{
-      width:320,
-      height:150,
-      flexDirection:'row',
-      //alignItems:'center',
-      backgroundColor:'violet',
-    },
+        width:320,
+        height:150,
+        flexDirection:'row',
+        //alignItems:'center',
+        backgroundColor:'violet',
+      },
+    
   
     //PARTE DE TEXTOS
   
@@ -160,33 +167,20 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
   
-  
     textinputcomentario:{
-      //marginLeft:10,
-      //marginRight:10,
-      width:150,
-      height:140,
-      //borderWidth:2,
-      //borderRadius:5,
-      //backgroundColor:'white',
-      textAlignVertical:'top',
-      numberOfLines:15,
-    },
+        //marginLeft:10,
+        //marginRight:10,
+        width:150,
+        height:140,
+        //borderWidth:2,
+        //borderRadius:5,
+        //backgroundColor:'white',
+        textAlignVertical:'top',
+        numberOfLines:15,
+      },
   
     //TouchableOpacity
-    botao1:{
-      width:300,
-      height:45,
-      paddingLeft:5,
-      paddingRight:5,
-      borderWidth:5,
-      borderRadius:10,
-      borderColor:'red',
-      backgroundColor:'white',
-      flexDirection:'row',
-      columnGap: 5,
-      alignItems:'center',
-    },
+
 
     botao:{
         borderWidth:2,
@@ -206,12 +200,6 @@ const styles = StyleSheet.create({
       height:60,
       //textAlign:'center',
       //textAlignVertical:'center',
-    },
-  
-    imagem_botao:{
-      borderRadius:5,
-      width:25,
-      height:25,
     },
   
   });

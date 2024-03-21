@@ -115,6 +115,18 @@ const styles = StyleSheet.create({
     textAlign:'center',
   },
 
+  textinputcomentario:{
+    marginLeft:10,
+    marginRight:10,
+    width:150,
+    height:140,
+    borderWidth:2,
+    borderRadius:5,
+    backgroundColor:'white',
+    textAlignVertical:'top',
+    numberOfLines:15,
+  },
+
   text_input_date:{
     marginLeft:10,
     //marginRight:10,
@@ -147,18 +159,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 
-  textinputcomentario:{
-    marginLeft:10,
-    marginRight:10,
-    width:150,
-    height:140,
-    borderWidth:2,
-    borderRadius:5,
-    backgroundColor:'white',
-    textAlignVertical:'top',
-    numberOfLines:15,
-  },
-
   //TouchableOpacity
   botao_salvar:{
     borderWidth:2,
@@ -181,64 +181,39 @@ const styles = StyleSheet.create({
 
 });
 
-import Conta1 from './test2.js'
-
-function salvarNovoElemento(vector, valorCompra, parcelas, diaCompra, mesCompra, anoCompra, apelidoCartao, mod, coment){
-  console.log('valorCompra:'+valorCompra)
-  console.log('parcelas:'+parcelas)
-  console.log('dia:'+diaCompra)
-  console.log('mes:'+mesCompra)
-  console.log('ano:'+anoCompra)
-  console.log('apelido:'+apelidoCartao)
-  console.log('mod:'+mod)
-  console.log('coment:'+coment)
-  
-  //console.log('dentro')
-  var elemento = new Conta1(valorCompra, parcelas, diaCompra, mesCompra, anoCompra,apelidoCartao, mod, coment)
-  //console.log("meio")
-  vector.registrar_gasto_cartao(elemento);
-  //console.log(vector)
-  //console.log('fim')
+function mudar_informacoes(vector, id, valor_conta, parcelas, dia_compra, mes_compra, ano_compra, modalidade, apelido_cartao, comentario){
+  console.log(vector)
+  console.log("valor_conta:"+valor_conta)
+  console.log("parcelas:"+parcelas)
+  console.log("dia_compra:"+dia_compra)
+  console.log("mes_compra:"+mes_compra)
+  console.log("ano_compra:"+ano_compra)
+  console.log("modalidade:"+modalidade)
+  console.log("apelido_cartao:"+apelido_cartao)
+  console.log("comentario:"+comentario)
+  vector.mudar_info_elemento_cartao(id, valor_conta, parcelas, dia_compra, mes_compra, ano_compra, modalidade, apelido_cartao, comentario)
 }
 
 
+export default function tela_editando_cartao({route, navigation}) {
 
-export default function tela_inserir_elemento_cartao({route, navigation}) {
-
-  console.log('tela_inserir_elemento_cartao')
+  console.log('tela_editando_cartao')
 
   var vector = route.params.vector
   var salario = route.params.salario
-  console.log(vector)
+  var elemento = route.params.elemento
 
-  const mudarTelaCartao = () => {navigation.navigate("Tela_cartoes", {vector, salario})}
-  //const seila = () => {console.log('valorCompra');var elemento = new Conta1(valorCompra, parcelas, diaCompra, mesCompra, anoCompra,apelidoCartao, mod, coment); console.log(vector)}
+  const mudarTelaEditarExcluirElemento = () => {navigation.navigate("Tela_editar_elemento_cartao", ({vector, salario, elemento}))}
+  const mudarTelaPosOperacao = ()=>{navigation.navigate("Tela_editar_elemento_cartao", {vector:vector, salario:salario, elemento:vector.retornar_elemento_cartao(elemento.id)})}
 
-  var valorCompra = 0
-  var parcelas = 0
-  var diaCompra = 0
-  var mesCompra = 0
-  var anoCompra = 0
-  var apelidoCartao = ''
-  var mod = 0
-  var coment = ''
-
-  //const [valorCompra, setValorcompra] = useState(0)
-  //const [parcelas, setParcelas] = useState(0)
-  //const [diaCompra, setDiaCompra] = useState(0)
-  //const [mesCompra, setMesCompra] = useState(0)
-  //const [anoCompra, setAnoCompra] = useState(0)
-  //const [apelidoCartao, setApelidoCartao] = useState('')
-  
-  /*const [mod, setMod] = useState(0)*/ /* 0 - Desconhecido
-                                       1 - Alimentação
-                                       2 - Beleza
-                                       3 - Saúde
-                                       4 - Streaming
-                                       5 - Transporte                    
-                                       */
-  
-  //const [coment, setComent] = useState('')
+  var valor_conta = elemento.valor_conta
+  var parcelas = elemento.parcelas
+  var dia_compra = elemento.dia_compra
+  var mes_compra = elemento.mes_compra
+  var ano_compra = elemento.ano_compra
+  var modalidade = elemento.modalidade
+  var apelido_cartao = elemento.apelido_cartao
+  var comentario = elemento.comentario
 
   return (
       <View style={styles.container}>
@@ -246,7 +221,7 @@ export default function tela_inserir_elemento_cartao({route, navigation}) {
 
         {/*TELA DO TOPO*/}
         <View style={styles.cabecalho}>
-          <TouchableOpacity onPress={mudarTelaCartao}>
+          <TouchableOpacity onPress={mudarTelaEditarExcluirElemento}>
             <Image
             style={styles.imagem_barrinhas}
             source={require('/imagem_2024-03-01_121240459.png')}   
@@ -262,47 +237,45 @@ export default function tela_inserir_elemento_cartao({route, navigation}) {
           <View style={styles.label_restante}>
             <View style={styles.label_valor_conta}>
               <Text style={styles.texto1}>Valor da Compra:</Text>
-              <TextInput style={styles.textinput1} onChange={(newText) => {valorCompra = newText.target.value} }>
+              <TextInput style={styles.textinput1} defaultValue={elemento.valor_conta} onChange={(newText) => {valor_conta = newText.target.value}}>
               </TextInput>
             </View>
             
             <View style={styles.label_numero_parcelas}>
               <Text style={styles.texto1}>Parcelas:</Text>
-              <TextInput style={styles.textinput1} inputMode='numeric' onChange={(newText1) => {parcelas = newText1.target.value} }>
+              <TextInput style={styles.textinput1} inputMode='numeric' defaultValue={elemento.parcelas} onChange={(newText) => {parcelas = newText.target.value}}>
               </TextInput>
             </View>
             
             <View style={styles.label_data_compra}>
               <Text style={styles.texto1}>Data da compra:</Text>
-              <TextInput style={styles.text_input_date} inputMode='numeric' onChange={(newText) => {diaCompra = newText.target.value} }>
+              <TextInput style={styles.text_input_date} inputMode='numeric' defaultValue={elemento.dia_compra} onChange={(newText) => {dia_compra = newText.target.value}}>
               </TextInput>
-              <TextInput style={styles.text_input_date_month} inputMode='numeric' onChange={(newText) => {mesCompra = newText.target.value} }>
+              <TextInput style={styles.text_input_date_month} inputMode='numeric' defaultValue={elemento.mes_compra} onChange={(newText) => {mes_compra = newText.target.value}}>
               </TextInput>
-              <TextInput style={styles.text_input_date_year} inputMode='numeric' onChange={(newText) => {anoCompra = newText.target.value} }>
+              <TextInput style={styles.text_input_date_year} inputMode='numeric' defaultValue={elemento.ano_compra} onChange={(newText) => {ano_compra = newText.target.value}}>
               </TextInput>
             </View>
             
             <View style={styles.label_modalidade_compra}>
              <Text style={styles.texto1}>Modalidade:</Text>
-              <TextInput style={styles.textinput1} onChange={(newText) => {mod = newText.target.value} }>
+              <TextInput style={styles.textinput1} defaultValue={elemento.modalidade} onChange={(newText) => {modalidade = newText.target.value}}>
               </TextInput>
             </View>
             
             <View style={styles.label_apelido_cartao}>
               <Text style={styles.texto1}>Cartão:</Text>
-              <TextInput style={styles.textinput1} onChange={(newText) => {apelidoCartao = newText.target.value} }></TextInput>
+              <TextInput style={styles.textinput1} defaultValue={elemento.apelido_cartao} onChange={(newText) => {apelido_cartao = newText.target.value}}></TextInput>
             </View>
             
             <View style={styles.label_comentario_compra}>
               <Text style={styles.texto1}>Comentário:</Text>
-              <TextInput style={styles.textinputcomentario} multiline={true} onChange={(newText) => {coment = newText.target.value} }></TextInput>
+              <TextInput style={styles.textinputcomentario} multiline={true} defaultValue={elemento.comentario} onChange={(newText) => {comentario = newText.target.value}}></TextInput>
             </View>
 
-            <TouchableOpacity style={styles.botao_salvar} onPress={() => {salvarNovoElemento(vector, valorCompra, parcelas, diaCompra, mesCompra, anoCompra, apelidoCartao, mod, coment); mudarTelaCartao()}} >
+            <TouchableOpacity style={styles.botao_salvar} onPress={()=>{mudar_informacoes(vector, elemento.id, valor_conta, parcelas, dia_compra, mes_compra, ano_compra, modalidade, apelido_cartao, comentario); mudarTelaPosOperacao()}}>
               <Text style={styles.text_button_save}>Salvar</Text>
             </TouchableOpacity>
-          
-            <View>{}</View>
 
           </View>
 
