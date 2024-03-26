@@ -137,9 +137,11 @@ export default function tela_pix({route, navigation}) {
   //console.log(vetor_pix)
   var salario = route.params.salario
   //console.log(salario)
+  var elemento
 
   const mudarTelaGastos = () => {navigation.navigate("Tela_gastos", {vector, salario})}
   const mudarTelaInserirElemento = () => {navigation.navigate("Tela_inserir_elemento_pix", {vector, salario})}
+  const mudarTelaEditarExcluirElemento = () => {navigation.navigate("Tela_editar_elemento_pix", {vector, salario, elemento})}
 
   return (
       <View style={styles.container}>
@@ -176,7 +178,7 @@ export default function tela_pix({route, navigation}) {
 
             {vetor_pix.map((vetor_pix) => {
             return (
-              <TouchableOpacity  style={styles.botao1}>
+              <TouchableOpacity  style={styles.botao1} onPress={()=> {elemento = vetor_pix; mudarTelaEditarExcluirElemento()}}>
               <Image
               style={styles.imagem_botao}
               source={require('./imagem_2024-03-01_121240459.png')}   

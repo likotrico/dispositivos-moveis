@@ -68,14 +68,7 @@ const styles = StyleSheet.create({
     backgroundColor:'orange',
   },
 
-  label_apelido_cartao:{
-    width:320,
-    height:40,
-    flexDirection:'row',
-    alignItems:'center',
-    backgroundColor:'gray',
-  },
-
+  
   label_comentario_compra:{
     width:320,
     height:150,
@@ -181,37 +174,36 @@ const styles = StyleSheet.create({
 
 });
 
-function mudar_informacoes(vector, id, valorPago, dia, mes, ano, modalidade, comentario){
-    console.log(vector)
-    console.log('valorpago:'+valorPago)
-    console.log('dia:'+dia)
-    console.log('mes:'+mes)
-    console.log('ano:'+ano)
-    console.log('modalidade:'+modalidade)
-    console.log('comentario:'+comentario)
-    vector.mudar_info_elemento_dinheiro(id, valorPago, dia, mes, ano, modalidade, comentario)
+function mudar_informacoes(vector, id, valor_trans, destinatario, dia_trans, mes_trans, ano_trans, modalidade, comentario){
+  console.log(vector)
+  console.log('valor_trans:'+valor_trans)
+  console.log('destinatario:'+destinatario)
+  console.log('dia:'+dia_trans)
+  console.log('mes:'+mes_trans)
+  console.log('ano:'+ano_trans)
+  console.log('modalidade:'+modalidade)
+  console.log('comentario:'+comentario)
+  vector.mudar_info_elemento_pix(id, valor_trans, destinatario, dia_trans, mes_trans, ano_trans, modalidade, comentario)
 }
 
-export default function tela_editando_dinheiro({route, navigation}) {
+export default function tela_editando_pix({route, navigation}) {
 
-  console.log('tela_editando_dinheiro')
+  console.log('tela_editando_pix')
 
-  var vector = route.params.vector
-  console.log(vector)
   var salario = route.params.salario
-  console.log(salario)
+  var vector = route.params.vector
   var elemento = route.params.elemento
-  console.log(elemento)
 
-  const mudarTelaEditarDinheiro = ()=>{navigation.navigate("Tela_editar_elemento_dinheiro", {vector, salario, elemento})}
-  const mudarTelaPosOperacao = ()=>{navigation.navigate("Tela_editar_elemento_dinheiro", {vector:vector, salario:salario, elemento:vector.retornar_elemento_dinheiro(elemento.id)})}
-
-  var valorPago = elemento.valorPago
-  var dia = elemento.dia
-  var mes = elemento.mes
-  var ano = elemento.ano
+  var valor_trans = elemento.valor_trans
+  var destinatario = elemento.destinatario
+  var dia_trans = elemento.dia_trans
+  var mes_trans = elemento.mes_trans
+  var ano_trans = elemento.ano_trans
   var modalidade = elemento.modalidade
   var comentario = elemento.comentario
+
+  const mudarTelaEditarPix = () => {navigation.navigate("Tela_editar_elemento_pix", {vector, salario, elemento})}
+  const mudarTelaPosOperacao = ()=>{navigation.navigate("Tela_editar_elemento_pix", {vector:vector, salario:salario, elemento:vector.retornar_elemento_pix(elemento.id)})}
 
   return (
       <View style={styles.container}>
@@ -219,7 +211,7 @@ export default function tela_editando_dinheiro({route, navigation}) {
 
         {/*TELA DO TOPO*/}
         <View style={styles.cabecalho}>
-          <TouchableOpacity onPress={mudarTelaEditarDinheiro}>
+          <TouchableOpacity onPress={mudarTelaEditarPix}>
             <Image
             style={styles.imagem_barrinhas}
             source={require('/imagem_2024-03-01_121240459.png')}   
@@ -234,35 +226,42 @@ export default function tela_editando_dinheiro({route, navigation}) {
         <View style={styles.tela}>
           <View style={styles.label_restante}>
             <View style={styles.label_valor_conta}>
-              <Text style={styles.texto1}>Valor Pago:</Text>
-              <TextInput style={styles.textinput1} defaultValue={valorPago} onChange={(newText) => {valorPago = newText.target.value}}>
+              <Text style={styles.texto1}>Valor da Transferência:</Text>
+              <TextInput style={styles.textinput1} inputMode='numeric' defaultValue={valor_trans} onChange={(newText) => {valor_trans = newText.target.value}}>
+              </TextInput>
+            </View>
+            
+            <View style={styles.label_numero_parcelas}>
+              <Text style={styles.texto1}>Destinatário:</Text>
+              <TextInput style={styles.textinput1} defaultValue={destinatario} onChange={(newText) => {destinatario = newText.target.value}}>
               </TextInput>
             </View>
             
             <View style={styles.label_data_compra}>
-              <Text style={styles.texto1}>Data:</Text>
-              <TextInput style={styles.text_input_date} inputMode='numeric' defaultValue={dia} onChange={(newText) => {dia = newText.target.value} }>
+              <Text style={styles.texto1}>Data da Transferência:</Text>
+              <TextInput style={styles.text_input_date} inputMode='numeric' defaultValue={dia_trans} onChange={(newText) => {dia_trans = newText.target.value}}>
               </TextInput>
-              <TextInput style={styles.text_input_date_month} inputMode='numeric' defaultValue={mes} onChange={(newText) => {mes = newText.target.value} }>
+              <TextInput style={styles.text_input_date_month} inputMode='numeric' defaultValue={mes_trans} onChange={(newText) => {mes_trans = newText.target.value}}>
               </TextInput>
-              <TextInput style={styles.text_input_date_year} inputMode='numeric' defaultValue={ano} onChange={(newText) => {ano = newText.target.value} }>
+              <TextInput style={styles.text_input_date_year} inputMode='numeric' defaultValue={ano_trans} onChange={(newText) => {ano_trans = newText.target.value}}>
               </TextInput>
             </View>
             
             <View style={styles.label_modalidade_compra}>
              <Text style={styles.texto1}>Modalidade:</Text>
-              <TextInput style={styles.textinput1} defaultValue={modalidade} onChange={(newText) => {modalidade = newText.target.value} }>
+              <TextInput style={styles.textinput1} defaultValue={modalidade} onChange={(newText) => {modalidade = newText.target.value}}>
               </TextInput>
             </View>
             
             <View style={styles.label_comentario_compra}>
               <Text style={styles.texto1}>Comentário:</Text>
-              <TextInput style={styles.textinputcomentario} multiline={true} defaultValue={comentario} onChange={(newText) => {comentario = newText.target.value} }></TextInput>
+              <TextInput style={styles.textinputcomentario} multiline={true} defaultValue={comentario} onChange={(newText) => {comentario = newText.target.value}}></TextInput>
             </View>
 
-            <TouchableOpacity style={styles.botao_salvar} onPress={()=>{mudar_informacoes(vector, elemento.id, valorPago, dia, mes, ano, modalidade, comentario); mudarTelaPosOperacao()}}>
+            <TouchableOpacity style={styles.botao_salvar} onPress={()=>{mudar_informacoes(vector, elemento.id, valor_trans, destinatario, dia_trans, mes_trans, ano_trans, modalidade, comentario); mudarTelaPosOperacao()}}>
               <Text style={styles.text_button_save}>Salvar</Text>
             </TouchableOpacity>
+            
             
 
           </View>

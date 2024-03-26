@@ -31,6 +31,22 @@ export default class Gastos{
     
   }
 
+  prox_id_pix(){
+    
+    if(this.vetor_pix.length == 0) return 0
+    else{
+      var maior = -1
+      var i 
+      for(i = 0; i < this.vetor_pix.length; i++){
+        if(this.vetor_pix[i].id > maior){
+          maior = this.vetor_pix[i].id 
+        }
+      }
+      return (maior + 1)
+    }
+    
+  }
+
   prox_id_dinheiro(){
     
     if(this.vetor_dinheiro.length == 0) return 0
@@ -53,6 +69,7 @@ export default class Gastos{
   }
 
   registrar_gasto_pix(conta){
+    conta.id = this.prox_id_pix()
     this.vetor_pix.push(conta)
   } 
 
@@ -75,6 +92,18 @@ export default class Gastos{
     }
     return
   }
+
+  excluir_elemento_pix(key){
+    var i
+    for(i = 0; i < this.vetor_pix.length; i++){
+      if(this.vetor_pix[i].id == key){
+        this.vetor_pix.splice(i, 1)
+        return
+      }
+    }
+    return
+  }
+
 
   excluir_elemento_dinheiro(key){
     var i
@@ -105,6 +134,23 @@ export default class Gastos{
     return
   }
 
+  mudar_info_elemento_pix(key, valor_trans, destinatario, dia_trans, mes_trans, ano_trans, modalidade, comentario){
+    var i
+    for(i=0; i<this.vetor_pix.length;i++){
+      if(this.vetor_pix[i].id == key){
+        this.vetor_pix[i].valor_trans = valor_trans
+        this.vetor_pix[i].destinatario = destinatario
+        this.vetor_pix[i].dia_trans = dia_trans
+        this.vetor_pix[i].mes_trans = mes_trans
+        this.vetor_pix[i].ano_trans = ano_trans
+        this.vetor_pix[i].modalidade = modalidade
+        this.vetor_pix[i].comentario = comentario
+        return
+      }
+    }
+    return
+  }
+
   mudar_info_elemento_dinheiro(key, valorPago, dia, mes, ano, modalidade, comentario){
     var i
     for(i=0; i<this.vetor_dinheiro.length;i++){
@@ -126,6 +172,16 @@ export default class Gastos{
     for(i=0; i<this.vetor_cartao.length;i++){
       if(this.vetor_cartao[i].id == key){
         return this.vetor_cartao[i]
+      }
+    }
+    return null
+  }
+
+  retornar_elemento_pix(key){
+    var i
+    for(i=0; i<this.vetor_pix.length;i++){
+      if(this.vetor_pix[i].id == key){
+        return this.vetor_pix[i]
       }
     }
     return null

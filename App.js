@@ -17,6 +17,8 @@ import tela_editar_elemento_dinheiro from './Tela_editar_elemento_dinheiro.js';
 import tela_editando_dinheiro from './Tela_editando_dinheiro.js';
 import tela_editar_elemento_cartao from './Tela_editar_elemento_cartao.js';
 import tela_editando_cartao from './Tela_editando_cartao.js';
+import tela_editar_elemento_pix from './Tela_editar_elemento_pix.js';
+import tela_editando_pix from './Tela_editando_pix.js';
 
 const Stack = createNativeStackNavigator();
 
@@ -40,6 +42,8 @@ export default function App(){
           <Stack.Screen name="Tela_editando_dinheiro" component={tela_editando_dinheiro}/>
           <Stack.Screen name="Tela_editar_elemento_cartao" component={tela_editar_elemento_cartao}/>
           <Stack.Screen name="Tela_editando_cartao" component={tela_editando_cartao}/>
+          <Stack.Screen name="Tela_editar_elemento_pix" component={tela_editar_elemento_pix}/>
+          <Stack.Screen name="Tela_editando_pix" component={tela_editando_pix}/>
         </Stack.Navigator>
       
     </NavigationContainer>

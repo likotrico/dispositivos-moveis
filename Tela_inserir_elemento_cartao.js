@@ -1,5 +1,7 @@
 import {useState} from 'react';
+import RNPickerSelect from 'react-native-picker-select';
 import { Text, View, TextInput, Button, Alert, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import Modalidade from './Modalidade.js'
 
 const styles = StyleSheet.create({
   
@@ -115,6 +117,19 @@ const styles = StyleSheet.create({
     textAlign:'center',
   },
 
+  textinput2:{
+    marginLeft:10,
+    marginRight:10,
+    marginTop:5,
+    width:150,
+    height:30,
+    borderWidth:2,
+    borderRadius:5,
+    backgroundColor:'white',
+    textAlign:'center',
+  },
+
+
   text_input_date:{
     marginLeft:10,
     //marginRight:10,
@@ -223,22 +238,7 @@ export default function tela_inserir_elemento_cartao({route, navigation}) {
   var mod = 0
   var coment = ''
 
-  //const [valorCompra, setValorcompra] = useState(0)
-  //const [parcelas, setParcelas] = useState(0)
-  //const [diaCompra, setDiaCompra] = useState(0)
-  //const [mesCompra, setMesCompra] = useState(0)
-  //const [anoCompra, setAnoCompra] = useState(0)
-  //const [apelidoCartao, setApelidoCartao] = useState('')
-  
-  /*const [mod, setMod] = useState(0)*/ /* 0 - Desconhecido
-                                       1 - Alimentação
-                                       2 - Beleza
-                                       3 - Saúde
-                                       4 - Streaming
-                                       5 - Transporte                    
-                                       */
-  
-  //const [coment, setComent] = useState('')
+  var fds = 'sexo'
 
   return (
       <View style={styles.container}>
@@ -286,6 +286,22 @@ export default function tela_inserir_elemento_cartao({route, navigation}) {
              <Text style={styles.texto1}>Modalidade:</Text>
               <TextInput style={styles.textinput1} onChange={(newText) => {mod = newText.target.value} }>
               </TextInput>
+            </View>
+
+            <View style={styles.label_modalidade_compra}>
+             <Text style={styles.texto1}>Modalidade2:</Text>
+             <RNPickerSelect
+                style={{inputAndroid: styles.textinput2, inputWeb: styles.textinput2, inputIOS: styles.textinput2,}}
+                onValueChange={(value)=>console.log(value)}
+                items={[
+                  {label:'Desconhecido', value: Modalidade.DESCONHECIDO},
+                  {label:'Alimentação', value: Modalidade.ALIMENTACAO},
+                  {label:'Beleza', value: Modalidade.BELEZA},
+                  {label:'Saúde', value: Modalidade.SAUDE},
+                  {label:'Streaming', value: Modalidade.STREAMING},
+                  {label:'Transporte', value: Modalidade.TRANSPORTE},
+                ]}
+             />
             </View>
             
             <View style={styles.label_apelido_cartao}>

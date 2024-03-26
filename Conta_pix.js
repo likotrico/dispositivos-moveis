@@ -7,6 +7,7 @@ export default class Conta_pix{
     ano_trans: int;
     modalidade: int;
     comentario: string;
+    id: int;
   
     constructor(valor_trans, destinatario, dia_trans, mes_trans, ano_trans, modalidade, comentario){
       this.valor_trans = valor_trans;

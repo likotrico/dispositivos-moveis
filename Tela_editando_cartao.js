@@ -228,7 +228,7 @@ export default function tela_editando_cartao({route, navigation}) {
             />
           </TouchableOpacity>
 
-          <Text style={styles.texto_cabecalho}>Inserir Elemento</Text>
+          <Text style={styles.texto_cabecalho}>Editando Elemento</Text>
 
         </View>
 

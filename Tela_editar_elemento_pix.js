@@ -68,14 +68,7 @@ const styles = StyleSheet.create({
     backgroundColor:'orange',
   },
 
-  label_apelido_cartao:{
-    width:320,
-    height:40,
-    flexDirection:'row',
-    alignItems:'center',
-    backgroundColor:'gray',
-  },
-
+  
   label_comentario_compra:{
     width:320,
     height:150,
@@ -85,6 +78,13 @@ const styles = StyleSheet.create({
   },
   
   //PARTE DE TEXTOS
+
+  texto_restante:{
+    fontSize:17,
+    flex:1,
+    textAlign:'center',
+    fontWeight: 'bold',
+},
 
   texto_cabecalho:{
     flex: 1,
@@ -181,37 +181,16 @@ const styles = StyleSheet.create({
 
 });
 
-function mudar_informacoes(vector, id, valorPago, dia, mes, ano, modalidade, comentario){
-    console.log(vector)
-    console.log('valorpago:'+valorPago)
-    console.log('dia:'+dia)
-    console.log('mes:'+mes)
-    console.log('ano:'+ano)
-    console.log('modalidade:'+modalidade)
-    console.log('comentario:'+comentario)
-    vector.mudar_info_elemento_dinheiro(id, valorPago, dia, mes, ano, modalidade, comentario)
-}
+export default function tela_editar_elemento_pix({route, navigation}) {
 
-export default function tela_editando_dinheiro({route, navigation}) {
+  console.log('tela_editar_elemento_pix')
 
-  console.log('tela_editando_dinheiro')
-
-  var vector = route.params.vector
-  console.log(vector)
   var salario = route.params.salario
-  console.log(salario)
+  var vector = route.params.vector
   var elemento = route.params.elemento
-  console.log(elemento)
 
-  const mudarTelaEditarDinheiro = ()=>{navigation.navigate("Tela_editar_elemento_dinheiro", {vector, salario, elemento})}
-  const mudarTelaPosOperacao = ()=>{navigation.navigate("Tela_editar_elemento_dinheiro", {vector:vector, salario:salario, elemento:vector.retornar_elemento_dinheiro(elemento.id)})}
-
-  var valorPago = elemento.valorPago
-  var dia = elemento.dia
-  var mes = elemento.mes
-  var ano = elemento.ano
-  var modalidade = elemento.modalidade
-  var comentario = elemento.comentario
+  const mudarTelaPix = () => {navigation.navigate("Tela_pix", {vector, salario})}
+  const mudarEditandoPix = () => {navigation.navigate("Tela_editando_pix", {vector, salario, elemento})}
 
   return (
       <View style={styles.container}>
@@ -219,14 +198,14 @@ export default function tela_editando_dinheiro({route, navigation}) {
 
         {/*TELA DO TOPO*/}
         <View style={styles.cabecalho}>
-          <TouchableOpacity onPress={mudarTelaEditarDinheiro}>
+          <TouchableOpacity onPress={mudarTelaPix}>
             <Image
             style={styles.imagem_barrinhas}
             source={require('/imagem_2024-03-01_121240459.png')}   
             />
           </TouchableOpacity>
 
-          <Text style={styles.texto_cabecalho}>Editando Elemento</Text>
+          <Text style={styles.texto_cabecalho}>Editar Elemento</Text>
 
         </View>
 
@@ -234,36 +213,39 @@ export default function tela_editando_dinheiro({route, navigation}) {
         <View style={styles.tela}>
           <View style={styles.label_restante}>
             <View style={styles.label_valor_conta}>
-              <Text style={styles.texto1}>Valor Pago:</Text>
-              <TextInput style={styles.textinput1} defaultValue={valorPago} onChange={(newText) => {valorPago = newText.target.value}}>
-              </TextInput>
+              <Text style={styles.texto1}>Valor da Transferência:</Text>
+              <Text style={styles.texto_restante}>{elemento.valor_trans}</Text>
+            </View>
+            
+            <View style={styles.label_numero_parcelas}>
+              <Text style={styles.texto1}>Destinatário:</Text>
+              <Text style={styles.texto_restante}>{elemento.destinatario}</Text>
             </View>
             
             <View style={styles.label_data_compra}>
-              <Text style={styles.texto1}>Data:</Text>
-              <TextInput style={styles.text_input_date} inputMode='numeric' defaultValue={dia} onChange={(newText) => {dia = newText.target.value} }>
-              </TextInput>
-              <TextInput style={styles.text_input_date_month} inputMode='numeric' defaultValue={mes} onChange={(newText) => {mes = newText.target.value} }>
-              </TextInput>
-              <TextInput style={styles.text_input_date_year} inputMode='numeric' defaultValue={ano} onChange={(newText) => {ano = newText.target.value} }>
-              </TextInput>
+              <Text style={styles.texto1}>Data da Transferência:</Text>
+              <Text style={styles.texto_restante}>{elemento.dia_trans}</Text>
+              <Text style={styles.texto_restante}>{elemento.mes_trans}</Text>
+              <Text style={styles.texto_restante}>{elemento.ano_trans}</Text>
             </View>
             
             <View style={styles.label_modalidade_compra}>
              <Text style={styles.texto1}>Modalidade:</Text>
-              <TextInput style={styles.textinput1} defaultValue={modalidade} onChange={(newText) => {modalidade = newText.target.value} }>
-              </TextInput>
+             <Text style={styles.texto_restante}>{elemento.modalidade}</Text>
             </View>
             
             <View style={styles.label_comentario_compra}>
               <Text style={styles.texto1}>Comentário:</Text>
-              <TextInput style={styles.textinputcomentario} multiline={true} defaultValue={comentario} onChange={(newText) => {comentario = newText.target.value} }></TextInput>
+              <Text style={styles.texto_restante}>{elemento.comentario}</Text>
             </View>
 
-            <TouchableOpacity style={styles.botao_salvar} onPress={()=>{mudar_informacoes(vector, elemento.id, valorPago, dia, mes, ano, modalidade, comentario); mudarTelaPosOperacao()}}>
-              <Text style={styles.text_button_save}>Salvar</Text>
+            <TouchableOpacity style={styles.botao_salvar} onPress={mudarEditandoPix}>
+              <Text style={styles.text_button_save}>Editar</Text>
             </TouchableOpacity>
             
+            <TouchableOpacity style={styles.botao_salvar} onPress={()=>{vector.excluir_elemento_pix(elemento.id); mudarTelaPix()}}>
+              <Text style={styles.text_button_save}>Excluir</Text>
+            </TouchableOpacity>
 
           </View>
 
